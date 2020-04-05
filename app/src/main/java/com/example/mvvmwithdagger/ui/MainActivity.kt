@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         viewmodel = ViewModelProvider(this, WeatherInforViewModelFactory(RepositoryImpl(
             LocalDataSourceImpl(),RemoteDataSourceImpl())))
             .get(WeatherInfoViewModel::class.java)
-        viewmodel.getWeatherReport().observe(this, Observer {
+        viewmodel.getMutableData()?.observe(this, Observer {
             binding.model = it
         });
 //        setupNavigation()
@@ -63,9 +63,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         binding.toolbar.inflateMenu(R.menu.toolbar_menu_items)
 
         binding.toolbar.setOnMenuItemClickListener(Toolbar.OnMenuItemClickListener {
-            viewmodel.getWeatherReport().observe(this, Observer {
-                binding.model = it
-            });
+            viewmodel.getWeatherReport()
             true
         })
     }

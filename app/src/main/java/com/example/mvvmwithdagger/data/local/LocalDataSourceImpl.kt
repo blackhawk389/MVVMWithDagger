@@ -12,11 +12,11 @@ class LocalDataSourceImpl : ModelDataSource
         dbInstance = DatabaseObject
             .getInstance(ApplicationClass.getApplicationClassContext()).weatherDatabase()
     }
-    override fun getWeatherinfoFromLocalStorage(): LiveData<Remote> {
+    override fun getWeatherinfoFromLocalStorage(): Remote? {
         return dbInstance.getWeatherInfo()
     }
 
-    override fun updateWeatherInfo(item: Remote) : Int{
+    override fun updateWeatherInfo(item: Remote?) : Void{
         return dbInstance.updateWeatherInfo(item)
     }
 

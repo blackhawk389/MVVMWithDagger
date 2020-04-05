@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import com.example.mvvmwithdagger.data.model.ModelDataSource
 import com.example.mvvmwithdagger.data.model.Remote
 import com.example.mvvmwithdagger.data.model.RemoteDataSource
+import java.util.*
+import kotlin.concurrent.schedule
 
 class RepositoryImpl(val modelDataSource : ModelDataSource,
                      val remoteDataSource: RemoteDataSource
@@ -18,21 +20,23 @@ class RepositoryImpl(val modelDataSource : ModelDataSource,
     }
 
 
-    override fun getWeatherinfoFromRemote(city: String): LiveData<Remote> {
+    override fun getWeatherinfoFromRemote(city: String): Remote? {
         var data = remoteDataSource.getWeatherinfoFromRemote(city)
-        modelDataSource.updateWeatherInfo(data as Remote)
+        Timer("SettingUp", false).schedule(20000) {
+            modelDataSource.updateWeatherInfo(data)
+        }
         return data;
     }
 
-    override fun getWeatherinfoFromLocalStorage(): LiveData<Remote> {
+    override fun getWeatherinfoFromLocalStorage(): Remote? {
         return modelDataSource.getWeatherinfoFromLocalStorage()
     }
 
-    override fun updateWeatherInfo(item: Remote) : Int {
+    override fun updateWeatherInfo(item: Remote?) : Void {
         return modelDataSource.updateWeatherInfo(item)
     }
 
-    override fun filterData() : LiveData<Remote>{
+    override fun filterData() : Remote?{
         var count = getDatabaseCount()
         if(count > 0){
             return getWeatherinfoFromLocalStorage()

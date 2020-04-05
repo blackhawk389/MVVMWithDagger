@@ -9,8 +9,18 @@ import com.example.mvvmwithdagger.data.model.Remote
 
 class WeatherInfoViewModel(val repo : IRepository): ViewModel() {
 
-    fun getWeatherReport() : LiveData<Remote>{
-        return repo.filterData()
+    var mutableLiveData : MutableLiveData<Remote>? =null
+
+    fun getWeatherReport() : Remote?{
+        mutableLiveData!!.postValue(return repo.getWeatherinfoFromRemote("london"))
+    }
+
+    init{
+        repo.filterData()
+    }
+
+    fun getMutableData() : MutableLiveData<Remote>?{
+        return mutableLiveData
     }
 
 
