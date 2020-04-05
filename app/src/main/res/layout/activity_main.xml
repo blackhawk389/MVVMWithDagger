@@ -2,8 +2,8 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <import type="java.util.List"/>
-            <variable name="model"
-                      type="com.example.mvvmwithdagger.data.model.Weather"/>
+        <variable name="model"
+                  type="com.example.mvvmwithdagger.data.model.Remote"/>
     </data>
     <androidx.drawerlayout.widget.DrawerLayout
             android:id="@+id/activity_main"
@@ -32,7 +32,32 @@
 
             <TextView android:layout_width="wrap_content"
                       android:layout_below="@+id/toolbar"
-                      android:text="@{`Current weather ` + model.description}"
+                      android:id="@+id/tv_main"
+                      android:text="@{`Current weather ` + model.base}"
+                      android:layout_height="wrap_content"/>
+
+            <TextView android:layout_width="wrap_content"
+                      android:layout_below="@+id/tv_main"
+                      android:id="@+id/tv_title"
+                      android:text="@{`City ` + model.name}"
+                      android:layout_height="wrap_content"/>
+
+            <TextView android:layout_width="wrap_content"
+                      android:layout_below="@+id/tv_title"
+                      android:id="@+id/tv_wind"
+                      android:text="@{`Current wind speed ` + model.wind.speed}"
+                      android:layout_height="wrap_content"/>
+
+            <TextView android:layout_width="wrap_content"
+                      android:layout_below="@+id/tv_wind"
+                      android:id="@+id/tv_cloud"
+                      android:text="@{`Clouds/Clearity ` + model.clouds.all}"
+                      android:layout_height="wrap_content"/>
+
+            <TextView android:layout_width="wrap_content"
+                      android:layout_below="@+id/tv_cloud"
+                      android:id="@+id/tv_city_name"
+                      android:text="@{`City Name ` + model.name}"
                       android:layout_height="wrap_content"/>
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                     app:fabSize="normal"
@@ -41,7 +66,7 @@
                     android:layout_alignParentBottom="true"
                     android:layout_margin="16dp"
                     app:backgroundTint="#000"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"/>
 
 
         </RelativeLayout>

@@ -8,22 +8,37 @@ import com.example.mvvmwithdagger.data.model.RemoteDataSource
 class RepositoryImpl(val modelDataSource : ModelDataSource,
                      val remoteDataSource: RemoteDataSource
 ) : IRepository{
+    override fun getDatabaseCount(): Int {
+        return modelDataSource.getDatabaseCount()
+    }
+
+    override fun saveData(item : LiveData<Remote>) {
+        modelDataSource.updateWeatherInfo(
+            remoteDataSource.getWeatherinfoFromRemote("karachi") as Remote)
+    }
 
 
     override fun getWeatherinfoFromRemote(city: String): LiveData<Remote> {
-            return remoteDataSource.getWeatherinfoFromRemote(city)
+        var data = remoteDataSource.getWeatherinfoFromRemote(city)
+        modelDataSource.updateWeatherInfo(data as Remote)
+        return data;
     }
 
     override fun getWeatherinfoFromLocalStorage(): LiveData<Remote> {
         return modelDataSource.getWeatherinfoFromLocalStorage()
     }
 
-    override fun updateWeatherInfo(item: Remote) {
-        modelDataSource.updateWeatherInfo(item)
+    override fun updateWeatherInfo(item: Remote) : Int {
+        return modelDataSource.updateWeatherInfo(item)
     }
 
-    override fun filterData() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun filterData() : LiveData<Remote>{
+        var count = getDatabaseCount()
+        if(count > 0){
+            return getWeatherinfoFromLocalStorage()
+        }else{
+            return getWeatherinfoFromRemote("karachi")
+        }
     }
 
 }

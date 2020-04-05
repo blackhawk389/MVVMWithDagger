@@ -15,14 +15,15 @@ abstract class DatabaseObject : RoomDatabase() {
         private lateinit var INSTANCE: DatabaseObject
 
         fun getInstance(context: Context): DatabaseObject {
-            if (INSTANCE != null) {
+            if (::INSTANCE.isInitialized) {
                 return INSTANCE
             }
             synchronized(this) {
-                Room.databaseBuilder(
+                INSTANCE = Room.databaseBuilder(
                     context.applicationContext,
+
                     DatabaseObject::class.java, "weather_database"
-                ).build()
+                ).allowMainThreadQueries().build()
 
                 return INSTANCE
             }

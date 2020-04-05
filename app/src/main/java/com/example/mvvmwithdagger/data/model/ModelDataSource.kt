@@ -4,5 +4,6 @@ import androidx.lifecycle.LiveData
 
 interface ModelDataSource {
     fun getWeatherinfoFromLocalStorage(): LiveData<Remote>
-    fun updateWeatherInfo(item : Remote) : Unit
+    fun getDatabaseCount() : Int
+    fun updateWeatherInfo(item : Remote) : Int
 }
