@@ -1,6 +1,7 @@
 package com.example.mvvmwithdagger.data.local
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.example.mvvmwithdagger.data.model.ModelDataSource
 import com.example.mvvmwithdagger.data.model.Remote
 import com.example.mvvmwithdagger.util.ApplicationClass
@@ -12,7 +13,8 @@ class LocalDataSourceImpl : ModelDataSource
         dbInstance = DatabaseObject
             .getInstance(ApplicationClass.getApplicationClassContext()).weatherDatabase()
     }
-    override fun getWeatherinfoFromLocalStorage(): Remote? {
+    override fun getWeatherinfoFromLocalStorage(): LiveData<Remote>? {
+
         return dbInstance.getWeatherInfo()
     }
 
@@ -23,6 +25,4 @@ class LocalDataSourceImpl : ModelDataSource
     override fun getDatabaseCount() : Int{
         return dbInstance.getDatabaseCount()
     }
-
-
 }

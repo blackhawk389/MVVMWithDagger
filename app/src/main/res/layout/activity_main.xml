@@ -39,7 +39,7 @@
             <TextView android:layout_width="wrap_content"
                       android:layout_below="@+id/tv_main"
                       android:id="@+id/tv_title"
-                      android:text="@{`City ` + model.name}"
+                      android:text="@{`City Name` + model.name}"
                       android:layout_height="wrap_content"/>
 
             <TextView android:layout_width="wrap_content"
@@ -54,11 +54,7 @@
                       android:text="@{`Clouds/Clearity ` + model.clouds.all}"
                       android:layout_height="wrap_content"/>
 
-            <TextView android:layout_width="wrap_content"
-                      android:layout_below="@+id/tv_cloud"
-                      android:id="@+id/tv_city_name"
-                      android:text="@{`City Name ` + model.name}"
-                      android:layout_height="wrap_content"/>
+
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                     app:fabSize="normal"
                     android:layout_width="wrap_content"

@@ -2,6 +2,7 @@ package com.example.mvvmwithdagger.data.local
 
 import androidx.annotation.IntegerRes
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy.REPLACE
@@ -13,7 +14,7 @@ import com.example.mvvmwithdagger.data.model.Remote
 interface WeatherDao {
 
     @Query("SELECT * from city_weather")
-    fun getWeatherInfo() : Remote
+    fun getWeatherInfo() : LiveData<Remote>?
 
     @Query("SELECT count(*) from city_weather")
     fun getDatabaseCount() : Int

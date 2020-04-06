@@ -11,26 +11,26 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class RemoteDataSourceImpl : RemoteDataSource {
+    var mutableLiveData : MutableLiveData<Remote>? = null
 
-    override fun getWeatherinfoFromRemote(city: String): Remote? {
+    override fun getWeatherinfoFromRemote(city: String): MutableLiveData<Remote>? {
         val service = RetrofitObject.getClient()?.create(APIEndPoints::class.java)
         val call = service?.getWeatherUpdate(city, ApiConstant.apikey)
-        var data : Remote? = null
 
         call?.enqueue(object : Callback<Remote> {
             override fun onResponse(call: Call<Remote>, response: Response<Remote>) {
                 if (response.isSuccessful) {
-                   data = response.body()
+                    mutableLiveData?.postValue(response.body())
                     //have some callback ^
                 }
             }
 
             override fun onFailure(call: Call<Remote>, t: Throwable) {
-                data = null
+                mutableLiveData?.postValue(null)
             }
         })
 
-            return data
+            return mutableLiveData
 
     }
 

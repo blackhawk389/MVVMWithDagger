@@ -22,28 +22,17 @@ import com.example.mvvmwithdagger.ui.weather_info.WeatherInfoViewModel
 import com.example.mvvmwithdagger.ui.weather_info.WeatherInforViewModelFactory
 import com.google.android.material.navigation.NavigationView
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity() {
 
     lateinit var binding : ActivityMainBinding
     lateinit var viewmodel : WeatherInfoViewModel;
 
-    override fun onNavigationItemSelected(p0: MenuItem): Boolean {
-        if (p0.getItemId() == android.R.id.home) {
-            binding.activityMain.openDrawer(Gravity.LEFT);
-            return true
-        }
-        return super.onOptionsItemSelected(p0);
-    }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         getMenuInflater().inflate(R.menu.toolbar_menu_items, menu);
         return true;
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return true
-//        return super.onOptionsItemSelected(item)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,10 +40,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         viewmodel = ViewModelProvider(this, WeatherInforViewModelFactory(RepositoryImpl(
             LocalDataSourceImpl(),RemoteDataSourceImpl())))
             .get(WeatherInfoViewModel::class.java)
+
+
         viewmodel.getMutableData()?.observe(this, Observer {
             binding.model = it
         });
-//        setupNavigation()
+
         setupToolbar()
     }
 
@@ -63,7 +54,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         binding.toolbar.inflateMenu(R.menu.toolbar_menu_items)
 
         binding.toolbar.setOnMenuItemClickListener(Toolbar.OnMenuItemClickListener {
-            viewmodel.getWeatherReport()
+            viewmodel.getWeatherReport()?.observe(this, Observer {
+                binding.model = it
+            });
             true
         })
     }
@@ -83,6 +76,4 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         binding.activityMain.addDrawerListener(actionBarDrawerToggle)
         actionBarDrawerToggle.syncState()
     }
-
-
 }
